@@ -66,7 +66,7 @@ function Reveal({
       variants={fadeUp}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: "0px 0px 25% 0px" }}
       transition={{ delay }}
       className={`${className} will-change-transform`}
       layoutId={layoutId}
@@ -380,25 +380,14 @@ function MagneticButton({ children, className = "" }: { children: React.ReactNod
   );
 }
 
-function SplitText({ text, delay = 0 }: { text: string; delay?: number }) {
+function SplitText({ text }: { text: string; delay?: number }) {
   const letters = text.split("");
   return (
-    <span className="inline-block overflow-hidden align-bottom">
+    <span className="inline-block align-bottom">
       {letters.map((letter, i) => (
-        <motion.span
-          key={i}
-          initial={{ y: "100%" }}
-          whileInView={{ y: 0 }}
-          viewport={{ once: true }}
-          transition={{
-            duration: 0.8,
-            ease: [0.22, 1, 0.36, 1],
-            delay: delay + i * 0.03,
-          }}
-          className="inline-block whitespace-pre will-change-transform"
-        >
+        <span key={i} className="inline-block whitespace-pre">
           {letter}
-        </motion.span>
+        </span>
       ))}
     </span>
   );
@@ -441,10 +430,12 @@ function Index() {
         style={{
           background: useTransform(
             [springX, springY],
-            ([x, y]) =>
-              `radial-gradient(600px circle at ${Number(x) + window.innerWidth / 2}px ${
+            ([x, y]) => {
+              if (typeof window === 'undefined') return 'none';
+              return `radial-gradient(600px circle at ${Number(x) + window.innerWidth / 2}px ${
                 Number(y) + window.innerHeight / 2
-              }px, rgba(255, 79, 0, 0.15), transparent 80%)`
+              }px, rgba(255, 79, 0, 0.15), transparent 80%)`;
+            }
           ),
         }}
       />
@@ -485,13 +476,7 @@ function Index() {
           style={{ y: heroY, opacity: heroOpacity }}
           className="relative z-10 mx-auto w-full max-w-5xl text-center will-change-transform"
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
-            className="mb-10 inline-flex items-center gap-3 rounded-full border border-white/5 bg-white/[0.02] px-5 py-2 backdrop-blur-xl"
-          >
+          <div className="mb-10 inline-flex items-center gap-3 rounded-full border border-white/5 bg-white/[0.02] px-5 py-2 backdrop-blur-xl">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange opacity-75" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-orange" />
@@ -499,7 +484,7 @@ function Index() {
             <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-white/40">
               System Status: High Performance
             </span>
-          </motion.div>
+          </div>
 
           <h1 className="font-display text-[clamp(2.5rem,8vw,6rem)] font-bold leading-[1.1] tracking-tight text-white text-balance">
             <SplitText text="Engineering solutions from" delay={0.2} /> <br />
@@ -508,24 +493,12 @@ function Index() {
             </span>
           </h1>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 1.4, duration: 1 }}
-            className="mx-auto mt-8 max-w-2xl text-lg text-white/40 font-light leading-relaxed"
-          >
+          <p className="mx-auto mt-8 max-w-2xl text-lg text-white/40 font-light leading-relaxed">
             Bridging hardware thinking and software execution to build
             robust, scalable, and high-performance systems.
-          </motion.p>
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 1.6, duration: 0.8 }}
-            className="mt-12 flex flex-wrap items-center justify-center gap-6"
-          >
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-6">
             <MagneticButton>
               <a
                 href="/resume.pdf"
@@ -547,7 +520,7 @@ function Index() {
                 <div className="absolute bottom-0 left-0 h-px w-0 bg-orange transition-all group-hover:w-full" />
               </a>
             </MagneticButton>
-          </motion.div>
+          </div>
         </motion.div>
 
         <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">

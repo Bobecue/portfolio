@@ -110,7 +110,10 @@ function RootShell({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body
+        className="min-h-screen antialiased"
+        style={{ backgroundColor: "#0a0a0a", color: "#fafafa" }}
+      >
         {children}
         <Scripts />
       </body>
